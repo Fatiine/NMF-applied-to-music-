@@ -1,0 +1,32 @@
+function [W,H]=NMFeucli(X,r,eps,maxIteration)
+    % The fonction retourne W et H tel que X~WH
+    % r est le rang de factorisation
+    % eps controle la qualité de l'approximation
+    
+    [n,m]=size(X);
+    % Initialisation aléatoire
+    %W0=rand(n,r); %matrice aléatoire de taille (n x r)
+    %H0=rand(r,m);
+    
+    % Initialisation par décomposition en valeurs singulières
+    [U,S,V] = svd(X); %X=USV'
+    %W0 = U*sqrt(S);
+    %H0 = sqrt(S)*V';
+    %Il faut gerer les dimensions !!
+    %garder les plusgd valeurs sing
+    % attention val negative
+    
+    % Multiplicative update
+    for iteration = 1 : maxIteration
+        H = H0 .* ( (W0'*X) ./ ((W0'*W0)*H0) );
+        W = W0 .* ( (X*H') ./ (W0*(H*H')) );
+        W0 = W;
+        H0 = H;
+        
+        if(norm(X-W*H)<eps) %norme euclidienne
+            break;
+        end
+
+	end
+
+end

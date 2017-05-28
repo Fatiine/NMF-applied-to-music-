@@ -1,0 +1,1 @@
+Utilisation de la factorisation par matrices non négatives afin de réduire la composante spéculaire et faciliter le traitement d'image.

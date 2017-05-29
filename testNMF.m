@@ -18,21 +18,26 @@ hold on
 R=[0,0,0,0,0,0,0];
 Seucli=[0,0,0,0,0,0,0];
 Sdiv=[0,0,0,0,0,0,0];
+Seucli_ring=[0,0,0,0,0,0,0];
 for r = 1:7
     R(r)=r;
-    [A,B] = NMFeucli(X,r,0.1,50);
+    [A,B] = NMFeucli(X,r,0.1,1000);
     Seucli(r)=score(X,A*B);
-    [A2,B2] = NMFdiv(X,r,0.1,50);
-    Sdiv(r)=score(X,A2*B2);  
-    [A3,B3] = NMF_IS(X,r,0.1,50);
-    Sdiv2(r)=score(X,A3*B3);  
-    
+    [A1,B1] = NMFeucli(X,r,0.1,1000,1);
+    Seucli_sing(r)=score(X,A1*B1);
+    [A2,B2] = NMFdiv(X,r,0.1,1000);
+    Sdiv(r)=Div(X,A2*B2);  
+    [A3,B3] = NMF_IS(X,r,0.1,1000);
+    Sdiv2(r)=Div2(X,A3*B3);  
+
 end
-plot(R,Seucli,'ro');
-plot(R,Sdiv,'bx');
-plot(R,Sdiv2,'go');
+plot(Seucli,'r');
+plot(Seucli_sing,'k')
+plot(Sdiv,'b');
+plot(Sdiv2,'g');
+
 title('Repr�sentation de l erreur en fonction du rang de factorisation')
 xlabel('rang de factorisation');
 ylabel('||X-W*H||fro');
-legend('Utilisation de la norme euclidienne avec initialisation al�atoire','Utilisation de la divergence avec initialisation al�atoire')
+legend('Utilisation de la norme euclidienne avec initialisation aléatoire','Utilisation de la norme euclidienne avec initialisation par décomposition en valeurs singulières','Utilisation de la divergence KL avec initialisation aléatoire','Utilisation de la divergence IS avec initialisation aléatoire')
 hold off
